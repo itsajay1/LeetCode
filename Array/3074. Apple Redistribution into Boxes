@@ -1,0 +1,39 @@
+Intuition:
+We want to store all apples using the minimum number of boxes.
+To reduce the number of boxes used, we should use the largest capacity boxes first.
+This is a greedy strategy: bigger boxes can hold more apples in one go.
+
+
+Approach:
+Calculate total apples by summing all values in the apple array.
+Sort the capacity array in ascending order.
+Start picking boxes from the largest capacity (end of the sorted array).
+Keep subtracting box capacity from total apples until all apples are placed.
+Count how many boxes were used.
+
+
+Complexity:
+Time complexity:O(Mlogm)
+Space complexity:O(1)
+
+
+
+class Solution {
+    public int minimumBoxes(int[] apple, int[] capacity) {
+        int n = apple.length;
+        int m = capacity.length;
+
+        Arrays.sort(capacity);
+        int totalApple = 0;
+        for(int i = 0; i < n; i++){
+            totalApple += apple[i];
+        }
+
+        int ans = m;
+        while(totalApple > 0){
+            totalApple -= capacity[ans-1];
+            ans--;
+        }
+        return m-ans;
+    }
+}
