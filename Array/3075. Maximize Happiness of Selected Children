@@ -1,0 +1,36 @@
+Intuition:
+To maximize total happiness, we should always pick the children with the highest happiness first.
+However, each time we select a child, the happiness of the next selected child decreases by 1.
+
+So the best strategy is:
+    Pick the largest happiness values early, before they get reduced too much.
+
+
+Approach:
+Sort the happiness array.
+Start picking from the largest values.
+For each selected child:
+    Add max(0, happiness[i] − turn) to the answer
+    Increase turn (number of children already picked).
+Stop after selecting k children.
+
+
+Complexity:
+Time complexity:O(NLogN)
+Space complexity:O(1)
+
+Code:
+class Solution {
+    public long maximumHappinessSum(int[] happiness, int k) {
+        Arrays.sort(happiness);
+        long ans = 0;
+        int turn = 0;
+
+        for (int i = happiness.length - 1; i >= 0 && k > 0; i--) {
+            ans += Math.max(0, happiness[i] - turn);
+            turn++;
+            k--;
+        }
+        return ans;
+    }
+}
