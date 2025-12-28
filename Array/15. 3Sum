@@ -1,0 +1,73 @@
+Intuition:
+    To find all unique triplets that sum to zero, we sort the array first.
+    Sorting helps us efficiently search pairs using two pointers and avoid duplicate triplets.
+
+    By fixing one number and finding the remaining two numbers whose sum cancels it, we reduce the problem to a 2-sum search inside a loop.
+
+Approach:
+    Sort the array.
+    Iterate through the array and fix one number nums[i].
+
+    Skip duplicate values of nums[i] to avoid repeated triplets.
+
+    Use two pointers (left and right) to find pairs whose sum equals -nums[i].
+
+    If the sum is too small, move left forward; if too large, move right backward.
+
+    When a valid triplet is found:
+        Store it
+        Move both pointers
+        Skip duplicate values for left and right.
+
+Complexity:
+    Time complexity:O(n^2)
+    Space complexity:O(1)
+
+
+Code:
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (int i = 0; i < n - 2; i++) {
+
+            // Skip duplicate first elements
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1;
+            int right = n - 1;
+            int target = -nums[i];
+
+            while (left < right) {
+                int sum = nums[left] + nums[right];
+
+                if (sum < target) {
+                    left++;
+                } 
+                else if (sum > target) {
+                    right--;
+                } 
+                else {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    left++;
+                    right--;
+
+                    // Skip duplicate second element
+                    while (left < right && nums[left] == nums[left - 1]) {
+                        left++;
+                    }
+
+                    // Skip duplicate third element
+                    while (left < right && nums[right] == nums[right + 1]) {
+                        right--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
