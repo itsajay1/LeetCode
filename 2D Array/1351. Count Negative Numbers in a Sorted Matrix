@@ -1,0 +1,44 @@
+Intuition:
+    The matrix is sorted in non-increasing order both row-wise and column-wise.
+    So from a smart starting position, we can eliminate an entire row or column in one step instead of checking every cell.
+
+Approach:
+    Start from the top-right corner.
+
+    If the current value is negative:
+        All values below it in the same column are also negative.
+        Count all of them at once and move left.
+
+    If the current value is positive or zero:
+        All values to the left in the same row are positive.
+        Skip the row and move down.
+
+    Repeat until you move out of the matrix.
+
+Complexity:
+    Time complexity:O(n+m)
+    Space complexity:O(1)
+
+
+
+class Solution {
+    public int countNegatives(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        int row = 0;
+        int col = cols-1;
+        int count = 0;
+
+        while(row < rows && col >= 0){
+            if(grid[row][col] < 0){
+                count +=rows-row;
+                col--;
+            }
+            else{
+                row++;
+            }
+        }
+        return count;
+    }
+}
