@@ -1,0 +1,26 @@
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        long totalSum = 0;
+        int count = 0;
+        int smallestNum = Integer.MAX_VALUE;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+
+                smallestNum = Math.min(smallestNum, Math.abs(matrix[i][j]));
+                if (matrix[i][j] < 0) {
+                    count++;
+                }
+                totalSum += Math.abs(matrix[i][j]);
+            }
+        }
+
+        if (count % 2 != 0) {
+            return totalSum -= (long) smallestNum * 2;
+        }
+        return totalSum;
+    }
+}
