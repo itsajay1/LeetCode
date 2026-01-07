@@ -1,0 +1,61 @@
+Step-by-Step Approach:
+
+1.Traverse tree to compute totalSum
+
+2.Initialize maxProduct = 0
+
+2.Traverse again (postorder):
+
+    compute subtreeSum
+
+    product = subtreeSum × (totalSum − subtreeSum)
+
+    update maxProduct
+
+4.Return maxProduct % (10^9 + 7)
+
+Code:
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static final int mod = 1000000007;
+    long totalSum = 0;
+    long maxProduct = 0;
+
+    public int sum(TreeNode root){
+        if(root == null) return 0;
+        return root.val + sum(root.left) + sum(root.right);
+    }
+
+    public int subTreeSum(TreeNode root){
+        if(root == null) return 0;
+
+        int leftSum = subTreeSum(root.left);
+        int rightSum = subTreeSum(root.right);
+
+        int sum = root.val + leftSum + rightSum;
+
+        long product = (long) sum*(totalSum - sum);
+        maxProduct = Math.max(product, maxProduct);
+
+        return sum;
+    }
+    public int maxProduct(TreeNode root) {
+        totalSum = sum(root);
+        subTreeSum(root);
+        return (int) (maxProduct % mod);
+    }
+}
